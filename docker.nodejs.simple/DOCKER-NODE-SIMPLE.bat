@@ -120,7 +120,7 @@ ECHO Done.
 ECHO.
 ECHO Building new image '%SW_NAME%' from '%SW_IMAGE%'...
 
-docker build -t %SW_NAME% ./docker_web_app/
+docker build -t %SW_NAME% ./hello_world/
 docker run -it --rm --name %SW_NAME% -h "%HOST_NAME%" -p 80:%SW_PORT% -w /usr/src/app -d %SW_NAME%
 
 REM ------ START ------
