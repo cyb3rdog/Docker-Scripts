@@ -1,6 +1,6 @@
 @echo off
 
-SET MACHINE=odoo
+SET MACHINE=ODOO
 SET CONTAINER_NAME=odoo
 
 REM ------ VARIABLES ------
@@ -17,4 +17,4 @@ ECHO Type 'exit' to quit the shell.
 ECHO.
 
 REM docker exec -it -u root %CONTAINER_NAME% /bin/bash
-docker-machine ssh odoo
+docker-machine ssh %MACHINE%

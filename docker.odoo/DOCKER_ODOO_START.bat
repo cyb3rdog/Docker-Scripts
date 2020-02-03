@@ -25,8 +25,8 @@ SET VM_DISK_SIZE=5000
 SET VM_DRIVER=virtualbox
 SET VM_NIC_MODE=deny
 
-SET MACHINE=odoo
-SET HOST_NAME=odoo
+SET MACHINE=ODOO
+SET HOST_NAME=ODOO
 
 SET DB_NAME=db
 SET DB_PORT=5432
@@ -95,12 +95,6 @@ ECHO Setting Enviroment Variables for User '%USERNAME%'...
 SETLOCAL ENABLEDELAYEDEXPANSION
 FOR /f "tokens=*" %%i IN ('docker-machine env %MACHINE%') DO %%i
 FOR /f "tokens=*" %%i IN ('docker-machine env %MACHINE%') DO ECHO %%i
-
-REM SET DOCKER_CERT_PATH=C:\Users\%USERNAME%\.docker\machine\machines\default
-REM SET DOCKER_HOST=tcp://192.168.99.100:2376
-REM SET DOCKER_MACHINE_NAME=default
-REM SET DOCKER_TLS_VERIFY=0
-REM SET DOCKER_TOOLBOX_INSTALL_PATH="C:\Program Files\Docker Toolbox"
 
 FOR /F "USEBACKQ tokens=1" %%i IN (`docker-machine ip %MACHINE%`) DO SET HOST_IP=%%i
 FOR /F "USEBACKQ tokens=1" %%i IN (`docker-machine active`) DO SET MACHINE_ACTIVE=%%i

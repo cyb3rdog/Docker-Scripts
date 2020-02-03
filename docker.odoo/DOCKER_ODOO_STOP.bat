@@ -1,6 +1,6 @@
 @echo off
 
-SET MACHINE=odoo
+SET MACHINE=ODOO
 
 SET DB_NAME=db
 SET PG_NAME=pgadmin

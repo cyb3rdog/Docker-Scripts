@@ -1,6 +1,6 @@
 @echo off
 
-SET MACHINE=odoo
+SET MACHINE=ODOO
 SET HOST_NAME=odoo
 
 SET PG_NAME=pgadmin

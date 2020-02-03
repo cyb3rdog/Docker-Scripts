@@ -28,7 +28,8 @@ docker rm -f %DOCKER_SW_CID%
 IF "%DOCKER_PG_CID%"=="" GOTO Next2
 docker rm -f %DOCKER_PG_CID%
 
-IF "%DOCKER_DB_CID%"=="" GOTO Next1
+:Next2
+IF "%DOCKER_DB_CID%"=="" GOTO Exit
 docker rm -f %DOCKER_DB_CID%
 
 

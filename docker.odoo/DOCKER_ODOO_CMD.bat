@@ -1,6 +1,6 @@
 @echo off
 
-SET MACHINE=odoo
+SET MACHINE=ODOO
 
 
 REM ------ VARIABLES ------
