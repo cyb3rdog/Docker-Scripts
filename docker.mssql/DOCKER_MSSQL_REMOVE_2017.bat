@@ -1,6 +1,6 @@
 @echo off
 
-SET MACHINE=default
+SET MACHINE=MSSQL-2017
 IF NOT "%1"=="" SET MACHINE=%1
 
 docker-machine rm %MACHINE%

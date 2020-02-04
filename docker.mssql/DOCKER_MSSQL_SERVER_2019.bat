@@ -191,6 +191,7 @@ IF "%HOSTS_FOUND%"=="Yes" (
   GOTO EditHosts
 )
 ECHO Hosts name '%HOST_NAME%' not found. Appending...
+attrib -R -H -S %HOSTS_FILE% /s /d
 ECHO. >> %HOSTS_FILE%
 ECHO %HOST_IP%	%HOST_NAME% >> %HOSTS_FILE%
 
@@ -198,8 +199,8 @@ ECHO %HOST_IP%	%HOST_NAME% >> %HOSTS_FILE%
 CHOICE /M "Do you want to edit the host file: "
 IF ERRORLEVEL 2 GOTO Finish
 
-attrib -R -H -S %HOSTS_FILE% /s /d
 notepad.exe %HOSTS_FILE%
+attrib +R +H +S %HOSTS_FILE% /s /d
 
 REM ------ FINISH ------
 :Finish
