@@ -5,7 +5,7 @@ SET HOST_NAME=odoo
 
 SET PG_NAME=pgadmin
 SET PG_PORT=8080
-SET PG_USER=odoo
+SET PG_USER=admin@odoo
 SET PG_PASS=odoo
 SET PG_IMAGE=dpage/pgadmin4
 

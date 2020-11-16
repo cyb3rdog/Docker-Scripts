@@ -8,13 +8,6 @@ REM --- This Script does everything automaticaly, including creation of the     
 REM --- Virtual Machine, if that does not exist, creating and setting up the    ---
 REM --- Docker Container, enabling it for remote connections on specified port  ---
 REM -------------------------------------------------------------------------------
-REM --- Script Optional Parameters:                                             ---
-REM --- %1 - Docker Virtual Machine Name                                        ---
-REM --- Usage Example:                                                          ---
-REM ---  DOCKER_MSSQL_SERVER default MSSQL Preactor123                          ---
-REM -------------------------------------------------------------------------------
-REM --- Author : Vaclav Macha, Minerva                                          ---
-REM -------------------------------------------------------------------------------
 
 
 SET MACHINE=metasfresh

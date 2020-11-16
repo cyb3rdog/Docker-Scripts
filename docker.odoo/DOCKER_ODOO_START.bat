@@ -20,7 +20,7 @@ ECHO ---------------------------------------------------------------------------
 REM --- Author : Vaclav Macha                                                   ---
 REM -------------------------------------------------------------------------------
 
-SET VM_MEMORY=4086
+SET VM_MEMORY=8192
 SET VM_DISK_SIZE=5000
 SET VM_DRIVER=virtualbox
 SET VM_NIC_MODE=deny
@@ -34,7 +34,7 @@ SET DB_IMAGE=postgres:10
 
 SET PG_NAME=pgadmin
 SET PG_PORT=8080
-SET PG_USER=odoo
+SET PG_USER=admin@odoo
 SET PG_PASS=odoo
 SET PG_IMAGE=dpage/pgadmin4
 

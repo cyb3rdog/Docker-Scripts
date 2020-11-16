@@ -26,9 +26,10 @@ SET VM_NIC_MODE=deny
 SET HOST_NAME=DOCKER
 SET CONTAINER_NAME=erpnext
 
-SET IMAGE_TAG=davidgu/erpnext:latest
-SET IMAGE_USER=?
-SET IMAGE_PASS=?
+REM SET IMAGE_TAG=davidgu/erpnext:latest
+SET IMAGE_TAG=lukptr/erpnext7
+SET IMAGE_USER=Administrator
+SET IMAGE_PASS=12345678
 SET IMAGE_PORT=80
 
 SET HOSTS_FILE=%WINDIR%\system32\drivers\etc\hosts
