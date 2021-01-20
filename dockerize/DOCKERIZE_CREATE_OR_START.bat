@@ -11,6 +11,7 @@ ECHO ---------------------------------------------------------------------------
 ECHO --- Script Optional Parameters:                                             ---
 ECHO ---   %%1 - Docker Virtual Machine Name                                     ---
 ECHO ---   %%2 - Docker Container Name                                           ---
+ECHO ---   %%3 - Docker Image/Tag/Dockerfile to Build                            ---
 ECHO --- Usage Examples:                                                         ---
 ECHO ---  DOCKERIZE-CREATE-START.bat machine-name                                ---
 ECHO ---  DOCKERIZE-CREATE-START.bat default default                             ---
@@ -21,8 +22,16 @@ SET VM_DISK_SIZE=5000
 SET VM_DRIVER=virtualbox
 SET VM_NIC_MODE=deny
 
+SET SHARE_NAME=docker_share
+SET SHARE_DIR=%CD%
+
+SET MACHINE=
+SET SW_NAME=
+SET SW_IMAGE=
+
 IF NOT "%1"=="" SET MACHINE=%1
 IF NOT "%2"=="" SET SW_NAME=%2
+IF NOT "%2"=="" SET SW_IMAGE=%3
 
 ECHO Please enter VM parameters:
 ECHO.
@@ -37,7 +46,7 @@ REM ------ Machine ------
 :Machine
 ECHO.
 ECHO Searching for Docker Virtual Machine '%MACHINE%'...
-FOR /F "USEBACKQ tokens=1" %%i IN (`docker-machine ls`) DO (  
+FOR /F "USEBACKQ tokens=1" %%i IN (`docker-machine ls`) DO (
   IF %%i==%MACHINE% SET DOCKER_MACHINE_NAME=%%i
 )
 IF "%DOCKER_MACHINE_NAME%"=="%MACHINE%" GOTO Boot
@@ -46,12 +55,12 @@ ECHO Docker Virtual Machine '%MACHINE%' not Found!
 ECHO Please enter Virtual Machine parameters:
 ECHO.
 SET /p VM_MEMORY="Memory? [4086]: "        || SET VM_MEMORY=4086
-SET /p VM_DISK_SIZE="Disk (MB)? [5000]: "  || SET VM_DISK_SIZE=5000 
+SET /p VM_DISK_SIZE="Disk (MB)? [5000]: "  || SET VM_DISK_SIZE=5000
 ECHO.
 ECHO Creating New Virtual Machine '%MACHINE%'...
 ECHO.
 
-docker-machine create --driver %VM_DRIVER% --virtualbox-memory %VM_MEMORY% --virtualbox-disk-size %VM_DISK_SIZE% --virtualbox-host-dns-resolver --virtualbox-hostonly-nicpromisc %VM_NIC_MODE% %MACHINE%
+docker-machine create --driver %VM_DRIVER% --virtualbox-memory %VM_MEMORY% --virtualbox-disk-size %VM_DISK_SIZE% --virtualbox-host-dns-resolver --virtualbox-hostonly-nicpromisc %VM_NIC_MODE% --virtualbox-share-folder "%SHARE_DIR%":%SHARE_NAME% %MACHINE%
 GOTO Variables
 
 
@@ -69,7 +78,6 @@ IF "%DOCKER_MACHINE_STATUS%"=="Running" GOTO Variables
 ECHO Done.
 ECHO.
 ECHO Booting Up Docker Virtual Machine '%MACHINE%'...
-REM "c:\Program Files\Oracle\VirtualBox\VBoxManage.exe" sharedfolder add %MACHINE% --name "%SHARE_NAME%" --hostpath %cd%\%SHARE_SUB_DIR%
 docker-machine start %MACHINE%
 
 
@@ -91,17 +99,25 @@ ECHO - Active IP: '%HOST_IP%'
 
 
 REM ------ REGENERATE ------
-REM GOTO Select
 ECHO Done.
 ECHO.
 ECHO Regenerating '%MACHINE%'...
-CHOICE /M "- Regenerate certificates? :"
-IF ERRORLEVEL 2 GOTO Select
+REM CHOICE /M "- Regenerate certificates? :"
+REM IF ERRORLEVEL 2 GOTO Select
 docker-machine regenerate-certs %MACHINE% --force
+
+
+REM ------ ADD SHARE ------
+:Share
+ECHO Done.
+ECHO.
+ECHO Mounting share '%SHARE_NAME%' at mount point '/%SHARE_NAME%'...
+REM "c:\Program Files\Oracle\VirtualBox\VBoxManage.exe" sharedfolder add %MACHINE% --name "%SHARE_NAME%" --hostpath "%SHARE_DIR%"
 
 
 REM ------ SELECT ------
 :Select
+IF DEFINED SW_IMAGE GOTO Build
 ECHO Done.
 ECHO.
 ECHO Available Options:
@@ -115,6 +131,7 @@ IF ERRORLEVEL 3 GOTO Start
 IF ERRORLEVEL 2 GOTO Compose
 IF ERRORLEVEL 1 GOTO Build
 
+
 REM ------ BUILD ------
 :Build
 ECHO Done.
@@ -123,8 +140,9 @@ IF NOT DEFINED SW_IMAGE SET /p SW_IMAGE="Enter image tag: "    || SET SW_IMAGE=%
 ECHO Building new image '%SW_NAME%' from '%SW_IMAGE%'...
 
 docker build -t %SW_NAME% .
-docker run -it --rm --name %SW_NAME% -h "%MACHINE%" -p 80:%SW_PORT% -w /usr/src/app -d %SW_IMAGE%
-GOTO Finish
+docker run -it --rm --name %SW_NAME% -h "%MACHINE%" -p 80:%SW_PORT% -v "/%SHARE_NAME%":/usr/src/app -w /usr/src/app -d %SW_IMAGE%
+GOTO Start
+
 
 REM ------ COMPOSE ------
 :Compose
@@ -133,6 +151,7 @@ ECHO.
 ECHO Composing '%SW_NAME%'...
 
 docker-compose up
+GOTO Start
 
 
 REM ------ START ------

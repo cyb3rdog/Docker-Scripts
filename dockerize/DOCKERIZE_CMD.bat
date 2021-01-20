@@ -1,5 +1,6 @@
 @echo off
 
+SET MACHINE=
 IF NOT "%1"=="" SET MACHINE=%1
 
 IF NOT DEFINED MACHINE docker-machine ls
