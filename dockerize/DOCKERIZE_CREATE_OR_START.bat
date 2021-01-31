@@ -28,6 +28,7 @@ SET SHARE_DIR=%CD%
 SET MACHINE=
 SET SW_NAME=
 SET SW_IMAGE=
+SET SW_PORT=8080
 
 IF NOT "%1"=="" SET MACHINE=%1
 IF NOT "%2"=="" SET SW_NAME=%2
@@ -37,9 +38,6 @@ ECHO Please enter VM parameters:
 ECHO.
 IF NOT DEFINED MACHINE   SET /p MACHINE="Machine name? [default]: "    || SET MACHINE=default
 IF NOT DEFINED SW_NAME   SET /p SW_NAME="Image/Tag name? [default]: "  || SET SW_NAME=default
-
-SET SW_PORT=8080
-SET HOSTS_FILE=%WINDIR%\system32\drivers\etc\hosts
 
 
 REM ------ Machine ------
