@@ -30,11 +30,11 @@ SET HOST_NAME=ODOO
 
 SET DB_NAME=db
 SET DB_PORT=5432
-SET DB_IMAGE=postgres:10
+SET DB_IMAGE=postgres:13
 
 SET PG_NAME=pgadmin
 SET PG_PORT=8080
-SET PG_USER=admin@odoo
+SET PG_USER=admin@odoo.com
 SET PG_PASS=odoo
 SET PG_IMAGE=dpage/pgadmin4
 

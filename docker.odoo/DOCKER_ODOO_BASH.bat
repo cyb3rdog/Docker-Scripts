@@ -16,5 +16,6 @@ ECHO Logging into the machine's '%MACHINE%' container '%CONTAINER_NAME%'...
 ECHO Type 'exit' to quit the shell.
 ECHO.
 
+ansicon -p
 REM docker exec -it -u root %CONTAINER_NAME% /bin/bash
 docker-machine ssh %MACHINE%
